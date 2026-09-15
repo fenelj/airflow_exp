@@ -14,7 +14,7 @@ This repository contains a modern, production-grade Apache Airflow 3.x deploymen
 
 The `dags/` folder comes pre-loaded with highly-documented reference blueprints for enterprise AWS operations:
 
-1.  **Medallion Architecture (`example_medallion_architecture.py`)**: Demonstrates a complete Bronze-to-Silver ETL pipeline. Uses a Lambda function (script included in `dags/lambda_scripts/`) to pull external API data via mTLS into S3, and triggers an AWS Glue PySpark job (script included in `dags/glue_scripts/`) to perform composite-key deduplication via an Apache Iceberg `MERGE INTO` statement.
+1.  **Medallion Architecture (`example_medallion_architecture.py`)**: Demonstrates a complete Bronze-to-Silver ETL pipeline. Uses a Lambda function (script included in `dags/_lambda_scripts/`) to pull external API data via mTLS into S3, and triggers an AWS Glue PySpark job (script included in `dags/_glue_scripts/`) to perform composite-key deduplication via an Apache Iceberg `MERGE INTO` statement.
 2.  **Existing EMR (`example_emr_existing_cluster.py`)**: Demonstrates submitting jobs to an active 24/7 EMR cluster using dynamic XCom step polling.
 3.  **Compute & Triggers**: Extensive examples of `EcsRunTaskOperator`, EventBridge API triggers, SQS Sensors, and AWS Step Functions in `example_aws_compute.py` and `example_aws_triggers_and_sensors.py`.
 
@@ -44,4 +44,4 @@ Custom VPC endpoints or GovCloud configurations are defined centrally in the `.e
 To deploy this repository to an AWS ECS cluster:
 1.  **Docker Image**: CI/CD runs `docker build .` and pushes the exact same image to AWS ECR for all environments.
 2.  **DAG Syncing**: CI/CD runs `aws s3 sync ./dags/ s3://my-dags-bucket/ --delete`. A sidecar container in the ECS Task Definition continuously syncs this bucket to your EFS mount.
-3.  **Script Syncing**: CI/CD runs `aws s3 sync ./dags/glue_scripts/ s3://my-glue-scripts-bucket/ --delete` ensuring your Spark scripts are version controlled exactly alongside your DAGs.
+3.  **Script Syncing**: CI/CD runs `aws s3 sync ./dags/_glue_scripts/ s3://my-glue-scripts-bucket/ --delete` ensuring your Spark scripts are version controlled exactly alongside your DAGs.

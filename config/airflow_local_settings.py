@@ -113,6 +113,32 @@ RESTRICTED_ORG_ALLOWLIST = {
     # provider version)
     "NeptuneStartDbClusterOperator",
     "NeptuneStopDbClusterOperator",
+
+    # Glue Data Catalog (create-only -- deletes intentionally excluded:
+    # task_policy has no resource-name-prefix check for catalog databases/
+    # tables, so an org DAG could otherwise delete another org's catalog
+    # entries by name)
+    "GlueCatalogCreateDatabaseOperator",
+    "GlueCatalogCreateTableOperator",
+    "GlueCatalogCreatePartitionOperator",
+    "GlueCrawlerOperator",
+
+    # Glue Data Quality
+    "GlueDataQualityOperator",
+    "GlueDataQualityRuleRecommendationRunOperator",
+    "GlueDataQualityRuleSetEvaluationRunOperator",
+
+    # RDS (lifecycle start/create only -- deletes intentionally excluded:
+    # task_policy has no resource-name-prefix check for RDS instance/
+    # snapshot ids, so an org DAG could otherwise delete another org's
+    # database by name)
+    "RdsCreateDbInstanceOperator",
+    "RdsStartDbOperator",
+    "RdsStopDbOperator",
+    "RdsCreateDbSnapshotOperator",
+    "RdsStartExportTaskOperator",
+    "RdsSnapshotExistenceSensor",
+    "RdsExportTaskExistenceSensor",
 }
 
 # Lowercase set of all common keys AWS operators use to carry an IAM role,
